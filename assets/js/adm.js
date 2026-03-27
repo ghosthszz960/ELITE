@@ -400,7 +400,7 @@ function checarPermissaoAdmin() {
 
   if (!userJSON) {
     alert("Você não tem permissão para acessar");
-    window.location.href = "/pages/login.html"; 
+    window.location.href = "login.html"; 
     return false;
   }
 
