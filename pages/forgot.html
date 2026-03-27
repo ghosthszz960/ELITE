@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Recuperar Senha</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/responsividade.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<div class="auth-container">
+  <h2 id="titulo">Recuperar senha</h2>
+
+  <!-- ETAPA 1 -->
+  <div id="step-email">
+    <input type="email" id="email" placeholder="Digite seu email">
+    <button onclick="enviarCodigo()">Enviar código</button>
+  </div>
+
+  <!-- ETAPA 2 -->
+  <div id="step-codigo" style="display:none;">
+    <input type="text" id="codigo" placeholder="Digite o código">
+    <button onclick="verificarCodigo()">Verificar código</button>
+  </div>
+
+  <!-- ETAPA 3 -->
+  <div id="step-nova-senha" style="display:none;">
+    <input type="password" class="input-senha" placeholder="Senha">
+    <input type="password" class="input-senha" placeholder="Confirmar senha">
+    <button onclick="resetarSenha()">Redefinir senha</button>
+  </div>
+
+  <p><a href="login.html">Voltar ao login</a></p>
+</div>
+
+<!-- LOADER -->
+<div class="loader-overlay" id="loader">
+  <div class="loader"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<button id="button-back" onclick="gobackhome()">Voltar ao home</button>
+
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="../assets/js/env.js"></script>
+<script src="../assets/js/githubApi.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/forgot.js"></script>
+
+<script>ativarEnter(enviarCodigo);</script>
+
+</body>
+</html>

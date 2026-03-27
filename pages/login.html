@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Barbearia</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/responsividade.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+
+<body>
+
+<div class="auth-container">
+  <h2>Login</h2>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="senha" class="input-senha" placeholder="Senha">
+
+  <button onclick="login()">Entrar</button>
+
+  <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+  <p><a href="forgot.html">Esqueceu a senha?</a></p>
+
+</div> <!-- FECHA AQUI -->
+
+<!-- LOADER GLOBAL (FORA) -->
+<div class="loader-overlay" id="loader">
+  <div class="loader"></div>
+</div>
+
+<!-- TOAST (FORA) -->
+<div id="toast" class="toast"></div>
+
+<button id="button-back" onclick="gobackhome()">Voltar ao home</button>
+
+<!-- MODAL ADMIN -->
+<div id="adminModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Você é um administrador</h3>
+    <p>Escolha para onde deseja ir:</p>
+    <div class="modal-buttons">
+      <button class="btn-login" id="goDashboard">Dashboard</button>
+      <button class="btn-login" id="goClientes">Tela Clientes</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/env.js"></script>
+<script src="../assets/js/githubApi.js"></script>
+<script src="../assets/js/auth.js"></script>
+
+<script>ativarEnter(login);</script>
+</body>
+</html>

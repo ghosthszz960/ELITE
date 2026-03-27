@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Admin</title>
+
+  <!-- CSS BASE -->
+<link rel="stylesheet" href="../assets/css/reset.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/agendamento.css">
+<link rel="stylesheet" href="../assets/css/perfil.css">
+<link rel="stylesheet" href="../assets/css/adm.css">
+
+<!-- CSS PRINCIPAL ADM -->
+<link rel="stylesheet" href="../assets/css/responsividadeadm.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <h2>ADM BARBER</h2>
+    </div>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="#" onclick="showTab('agenda')">AGENDA</a></li>
+        <li><a href="#" onclick="showTab('usuarios')">USUÁRIOS</a></li>
+        <li><a href="#" onclick="showTab('servicos')">SERVIÇOS</a></li>
+      </ul>
+    </nav>
+    <!-- BOTÃO LOGIN -->
+<div id="user-area">
+  <a href="login.html" class="btn-login" id="login-btn">Login</a>
+</div>
+<div class="menu-toggle">
+  ☰
+</div>
+  </div>
+  
+</header>
+
+<!-- CONTEÚDO -->
+<main class="container" style="margin-top:40px;">
+
+  <!-- ================= AGENDA ================= -->
+  <section id="agenda" class="tab active">
+
+    <div class="calendar">
+      <div class="calendar-header">
+        <button onclick="prevMonth()">◀</button>
+        <h3 id="monthYear"></h3>
+        <button onclick="nextMonth()">▶</button>
+      </div>
+      <div class="calendar-days" id="calendarDays"></div>
+    </div>
+
+    <h2>Agendamentos do dia</h2>
+    <div id="listaAgendamentos"></div>
+
+  </section>
+
+  <!-- ================= USUÁRIOS ================= -->
+  <section id="usuarios" class="tab">
+
+    <h2>Usuários</h2>
+    <div id="listaUsuarios"></div>
+
+  </section>
+
+  <!-- ================= SERVIÇOS ================= -->
+  <section id="servicos" class="tab">
+
+    <h2>Serviços</h2>
+
+    <button class="btn" onclick="addServico()">+ Novo Serviço</button>
+
+    <div id="listaServicos"></div>
+
+  </section>
+
+</main>
+
+<div id="modal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 id="modalTitulo"></h3>
+    <div id="modalConteudo"></div>
+
+    <div class="modal-actions">
+      <button class="btn-secundario" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="../assets/js/env.js"></script>
+<script src="../assets/js/adm.js"></script>
+<script src="../assets/js/main.js"></script>
+
+</body>
+</html>

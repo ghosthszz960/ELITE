@@ -1,0 +1,47 @@
+/* HERO */
+.galeria-hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: #0d0d0d;
+}
+
+.galeria-hero h1 {
+  color: #d4af37;
+  font-size: 32px;
+}
+
+.galeria-hero p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* CONTAINER */
+.galeria-container {
+  padding: 50px 20px;
+}
+
+/* GRID */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+/* FOTO */
+.foto {
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.foto img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.foto:hover img {
+  transform: scale(1.1);
+}
