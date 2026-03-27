@@ -75,9 +75,10 @@ function verificarCodigo() {
 
 // ================= ETAPA 3 =================
 async function resetarSenha() {
-  const senha = document.getElementById("novaSenha").value;
-  const confirmar = document.getElementById("confirmarSenha").value;
-  const email = sessionStorage.getItem("resetEmail");
+  // pega os valores dos novos campos
+  const senha = document.getElementById("senha1")?.value || "";
+  const confirmar = document.getElementById("confirmarSenha1")?.value || "";
+  const email = sessionStorage.getItem("resetEmail") || "";
 
   if (!senha || !confirmar) {
     showToast("Preencha todos os campos", "error");
@@ -94,7 +95,6 @@ async function resetarSenha() {
   try {
     // 1️⃣ PUXA DADOS ATUALIZADOS
     const { data } = await getFile(URLS.users);
-
     const index = data.findIndex(u => u.email === email);
 
     if (index === -1) {
@@ -104,7 +104,6 @@ async function resetarSenha() {
 
     // 2️⃣ HASH DA NOVA SENHA
     const senhaHash = await hashPassword(senha);
-
     data[index].senha = senhaHash;
 
     // 3️⃣ PEGA SHA MAIS RECENTE (SEU PADRÃO)
