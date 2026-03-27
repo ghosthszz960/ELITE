@@ -22,9 +22,7 @@ function showTab(tab) {
 /* ================= API ================= */
 
 async function getData(url, type) {
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${ENV.token}` }
-  });
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${ENV.token}` } });
   const data = await res.json();
 
   if (type === "users") shaUsers = data.sha;
@@ -53,15 +51,19 @@ async function updateData(url, content, sha) {
 /* ================= LOAD ================= */
 
 async function loadAll() {
-  usuarios = await getData(URLS.users, "users");
-  agendamentos = await getData(URLS.agendamentos, "agendamentos");
-  servicos = await getData(URLS.services, "services");
-  galeria = await getData(URLS.galeria, "galeria").fotos || [];
+  try {
+    usuarios = await getData(URLS.users, "users");
+    agendamentos = await getData(URLS.agendamentos, "agendamentos");
+    servicos = await getData(URLS.services, "services");
+    galeria = (await getData(URLS.galeria, "galeria")).fotos || [];
 
-  renderUsuarios();
-  renderServicos();
-  renderCalendar();
-  carregarGaleria();
+    renderUsuarios();
+    renderServicos();
+    renderCalendar();
+    carregarGaleria();
+  } catch (err) {
+    console.error("Erro ao carregar dados:", err);
+  }
 }
 
 loadAll();
@@ -152,138 +154,6 @@ function carregarGaleria() {
   });
 }
 
-async function updateGaleriaJSON(newFileName) {
-  try {
-    galeria.push(newFileName);
-    await updateData(URLS.galeria, { fotos: galeria }, shaGaleria);
-    const data = await getData(URLS.galeria, "galeria"); 
-    shaGaleria = data.sha;
-    galeria = data.fotos;
-    carregarGaleria();
-  } catch (err) {
-    console.error("Erro ao atualizar galeria.json", err);
-  }
-}
-
-async function uploadFileToELITE(file, fileName) {
-  const path = `assets/images/galeria/${fileName}`;
-  const reader = new FileReader();
-
-  return new Promise((resolve, reject) => {
-    reader.onloadend = async () => {
-      const fileContent = reader.result.split(",")[1];
-      const repoOwner = ENV.username;
-      const repoName = "ELITE";
-
-      let sha = null;
-      try {
-        const resCheck = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`, {
-          headers: { Authorization: `token ${ENV.token}` }
-        });
-        if (resCheck.ok) {
-          const data = await resCheck.json();
-          sha = data.sha;
-        }
-      } catch {}
-
-      const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`, {
-        method: "PUT",
-        headers: { Authorization: `token ${ENV.token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `Upload foto galeria ${fileName}`, content: fileContent, sha })
-      });
-
-      const result = await res.json();
-      if (result.commit) resolve(result);
-      else reject(result);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-// MOSTRAR FORMULÁRIO
-document.getElementById("showGalleryFormButton")?.addEventListener("click", function() {
-  this.style.display = "none";
-  const formContainer = document.getElementById("galleryFormContainer");
-  if (formContainer) formContainer.style.display = "block";
-
-  // Força o input a abrir quando o formulário aparecer
-  const fileInput = document.getElementById("galleryFileInput");
-  if (fileInput) fileInput.click();
-});
-
-// UPLOAD DE FOTO
-document.getElementById("galleryUploadForm")?.addEventListener("submit", async function(event) {
-  event.preventDefault();
-
-  const loader = document.getElementById("galleryLoaderOverlay");
-  loader.style.display = "block";
-
-  const fileInput = document.getElementById("galleryFileInput");
-  const file = fileInput.files[0];
-
-  const alertMsg = document.getElementById("galleryAlertMessage");
-  if (!file) {
-    if (alertMsg) alertMsg.innerText = "Selecione um arquivo.";
-    loader.style.display = "none";
-    return;
-  }
-
-  if (!file.type.startsWith("image/")) {
-    if (alertMsg) alertMsg.innerText = "Apenas imagens são permitidas.";
-    loader.style.display = "none";
-    return;
-  }
-
-  const timestamp = Date.now();
-  const fileName = `foto_${timestamp}.${file.name.split(".").pop()}`;
-
-  try {
-    // Subir foto
-    await uploadFileToELITE(file, fileName);
-
-    // Atualizar JSON sem sobrescrever fotos antigas
-    await updateGaleriaJSON(fileName);
-
-    alert("Foto enviada com sucesso!");
-    fileInput.value = "";
-  } catch (err) {
-    console.error(err);
-    alert("Erro ao enviar a foto.");
-  } finally {
-    loader.style.display = "none";
-  }
-});
-
-// FUNÇÃO DE ATUALIZAR JSON
-async function updateGaleriaJSON(fileName) {
-  try {
-    const res = await fetch(URLS.galeria, { headers: { Authorization: `token ${ENV.token}` } });
-    if (!res.ok) throw new Error("Erro ao buscar galeria.json");
-
-    const data = await res.json();
-    const conteudoAtual = JSON.parse(atob(data.content));
-
-    if (!Array.isArray(conteudoAtual.fotos)) conteudoAtual.fotos = [];
-    conteudoAtual.fotos.push(fileName);
-
-    const novoConteudoString = JSON.stringify(conteudoAtual, null, 2);
-    const novoConteudoBase64 = btoa(unescape(encodeURIComponent(novoConteudoString)));
-
-    const putRes = await fetch(URLS.galeria, {
-      method: "PUT",
-      headers: { Authorization: `token ${ENV.token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ message: `Adiciona foto ${fileName}`, content: novoConteudoBase64, sha: data.sha })
-    });
-
-    if (!putRes.ok) {
-      const erro = await putRes.json();
-      throw new Error(`Erro ao atualizar galeria.json: ${erro.message}`);
-    }
-  } catch (err) {
-    console.error("Erro ao atualizar galeria.json", err);
-    throw err;
-  }
-}
 /* ================= TOAST ================= */
 
 function showToast(message, type = "success", duration = 3000) {
@@ -372,7 +242,6 @@ async function salvarUsuario(i) {
   u.email = document.getElementById("editEmail").value;
 
   try {
-    await getData(URLS.users, "users");
     await updateData(URLS.users, usuarios, shaUsers);
     await loadAll();
     fecharModal();
@@ -393,7 +262,6 @@ async function resetSenha(i) {
   try {
     const hashed = await hashPassword("123456");
     user.senha = hashed;
-    await getData(URLS.users, "users");
     await updateData(URLS.users, usuarios, shaUsers);
     await loadAll();
     showToast(`Senha de ${user.nome} redefinida!`, "success");
@@ -401,15 +269,6 @@ async function resetSenha(i) {
     console.error(err);
     showToast("Erro ao redefinir senha", "error");
   }
-}
-
-async function hashPassword(password) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hash = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
 }
 
 async function removerUsuario(i) {
@@ -420,7 +279,6 @@ async function removerUsuario(i) {
   usuarios.splice(i, 1);
 
   try {
-    await getData(URLS.users, "users");
     await updateData(URLS.users, usuarios, shaUsers);
     await loadAll();
     showToast("Usuário excluído com sucesso!", "success");
@@ -428,6 +286,15 @@ async function removerUsuario(i) {
     console.error(err);
     showToast("Erro ao excluir usuário", "error");
   }
+}
+
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 /* ================= SERVIÇOS ================= */
@@ -548,9 +415,7 @@ function checarPermissaoAdmin() {
   return true;
 }
 
-if (!checarPermissaoAdmin()) {
-  throw new Error("Acesso negado");
-}
+if (!checarPermissaoAdmin()) throw new Error("Acesso negado");
 
 /* ================= MENU ================= */
 
@@ -558,35 +423,25 @@ const toggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector(".nav ul");
 
 if (toggle && menu) {
-  toggle.addEventListener("click", () => {
-    menu.classList.toggle("active");
-  });
+  toggle.addEventListener("click", () => menu.classList.toggle("active"));
 }
 
-// Elementos do modal
-const showBtn = document.getElementById("showGalleryFormButton");
-const modal = document.getElementById("modal");
-const closeBtn = document.getElementById("closeGalleryModal");
-const cancelBtn = document.getElementById("cancelUpload");
+/* ================= EXPOR FUNÇÕES PARA HTML ================= */
 
-// Abrir modal
-showBtn?.addEventListener("click", () => {
-  modal.style.display = "flex"; // USAR FLEX para centralizar
-  document.getElementById("galleryAlertMessage").innerText = "";
-  document.getElementById("galleryFileInput").value = "";
-});
+window.salvarUsuario = salvarUsuario;
+window.editarUsuario = editarUsuario;
+window.removerUsuario = removerUsuario;
+window.resetSenha = resetSenha;
 
-// Fechar modal com X
-closeBtn?.addEventListener("click", () => {
-  modal.style.display = "none";
-});
+window.addServico = addServico;
+window.salvarNovoServico = salvarNovoServico;
+window.removerServico = removerServico;
+window.editarServico = editarServico;
+window.salvarServico = salvarServico;
 
-// Fechar modal com botão Cancelar
-cancelBtn?.addEventListener("click", () => {
-  modal.style.display = "none";
-});
+window.verDetalhes = verDetalhes;
+window.cancelarAgendamento = cancelarAgendamento;
 
-// Fechar modal clicando fora do conteúdo
-window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.style.display = "none";
-});
+window.showTab = showTab;
+window.prevMonth = prevMonth;
+window.nextMonth = nextMonth;
