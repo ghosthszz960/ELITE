@@ -272,7 +272,6 @@ button {
 
 /* Conteúdo do modal */
 .modal-box {
-  background-color: #fff;
   margin: 10% auto;
   padding: 20px;
   border-radius: 8px;
@@ -319,7 +318,6 @@ button {
 
 /* Centraliza o conteúdo */
 .modal-box {
-  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 90%;
@@ -348,4 +346,7 @@ button {
 .modal-buttons .btn-cancel {
   background-color: #ccc;
   color: #000;
+}
+.modal-overlay.active {
+  display: flex;
 }
