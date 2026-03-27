@@ -1,0 +1,111 @@
+/* =========================
+   MOBILE ADMIN (SEM QUEBRAR DESKTOP)
+========================= */
+
+@media (max-width: 768px) {
+
+  /* HEADER */
+  .nav-container {
+    position: relative;
+  }
+
+  /* BOTÃO HAMBURGUER */
+  .menu-toggle {
+    display: block;
+    font-size: 28px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 3000;
+  }
+
+  /* ESCONDE LOGIN */
+  #user-area {
+    display: none;
+  }
+
+  /* MENU */
+  .nav ul {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+
+    width: 180px;
+    background: #000;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 15px;
+    gap: 10px;
+
+    border-radius: 10px;
+
+    /* ESCONDIDO */
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+
+    transition: 0.3s ease;
+    z-index: 2000;
+  }
+
+  /* MENU ATIVO */
+  .nav ul.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  /* LINKS */
+  .nav ul li a {
+    color: #fff;
+    font-size: 14px;
+  }
+
+}
+
+/* Modal geral */
+.modal {
+  display: none; /* Oculto por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* Fundo escuro */
+}
+
+/* Conteúdo do modal */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+/* Botão de fechar */
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Botões do modal */
+.modal-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.modal-buttons .btn-cancel {
+  background-color: #ccc;
+  color: #000;
+}

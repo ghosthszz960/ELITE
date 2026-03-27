@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil - Barbearia Elite</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/perfil.css">
+  <link rel="stylesheet" href="../assets/css/responsividade.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="header">
+  <div class="container nav-container">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <h2>BARBER ELITE</h2>
+    </div>
+
+    <!-- NAV DESKTOP -->
+    <nav class="nav">
+      <ul>
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="agendamento.html">AGENDAR</a></li>
+        <li><a href="galeria.html">GALERIA</a></li>
+        <li><a href="sobre.html">SOBRE</a></li>
+        <li><a href="contato.html">CONTATOS</a></li>
+      </ul>
+    </nav>
+
+    <!-- LOGIN -->
+    <div id="user-area">
+      <a href="login.html" class="btn-login">Login</a>
+    </div>
+
+    <!-- BOTÃO MOBILE -->
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+
+  </div>
+
+  <!-- NAV MOBILE -->
+  <nav class="nav-mobile" id="nav-mobile">
+    <a href="../index.html">HOME</a>
+    <a href="agendamento.html">AGENDAR</a>
+    <a href="galeria.html">GALERIA</a>
+    <a href="sobre.html">SOBRE</a>
+    <a href="contato.html">CONTATOS</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+<!-- PERFIL -->
+<section class="perfil-wrapper">
+
+  <div class="perfil-card">
+
+    <div class="perfil-header">
+  <span class="edit-icon" onclick="ativarEdicao()" title="Editar perfil">
+    ✏️
+  </span>
+</div>
+
+    <!-- AVATAR -->
+    <div class="perfil-avatar">
+      <img src="https://img.cdndsgni.com/preview/11857317.jpg" alt="Usuário">
+    </div>
+
+    <h2>Meu Perfil</h2>
+
+    <!-- FORM -->
+<input type="text" id="nome" placeholder="Nome" disabled>
+<input type="email" id="email" disabled>
+
+<input type="password" id="senhaAtual" placeholder="Senha atual" disabled>
+<input type="password" id="novaSenha" placeholder="Nova senha" disabled>
+
+    <button onclick="atualizarPerfil()">Salvar alterações</button>
+
+    <!-- AGENDAMENTOS -->
+    <div class="perfil-agendamentos">
+
+      <h3>Meus Agendamentos</h3>
+
+      <div class="filtros">
+        <button onclick="filtrar('proximos')" class="active">Próximos</button>
+        <button onclick="filtrar('passados')">Passados</button>
+        <button onclick="filtrar('todos')">Todos</button>
+      </div>
+
+      <div id="listaAgendamentos"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2026 Barbearia Elite - Todos os direitos reservados</p>
+</footer>
+
+<!-- LOADER -->
+<div class="loader-overlay" id="loader">
+  <div class="loader"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- MODAL CONFIRMAÇÃO -->
+<div id="modalCancel" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Confirmar cancelamento</h3>
+
+    <p id="modalTexto"></p>
+
+    <div class="modal-actions">
+      <button class="btn-secundario" onclick="fecharModal()">Voltar</button>
+      <button class="btn-perigo" onclick="confirmarCancelamentoFinal()">Cancelar Agendamento</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/env.js"></script>
+<script src="../assets/js/githubApi.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/perfil.js"></script>
+<script src="../assets/js/main.js"></script>
+
+</body>
+</html>

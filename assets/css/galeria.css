@@ -1,0 +1,107 @@
+/* HERO */
+.galeria-hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: #0d0d0d;
+}
+
+.galeria-hero h1 {
+  color: #d4af37;
+  font-size: 32px;
+}
+
+.galeria-hero p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* CONTAINER */
+.galeria-container {
+  padding: 50px 20px;
+}
+
+/* GRID */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+/* FOTO */
+.foto {
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.foto img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.foto:hover img {
+  transform: scale(1.1);
+}
+/* GALERIA GRID AJUSTADA */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* FOTO */
+.foto {
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.foto img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.foto:hover img {
+  transform: scale(1.05);
+}
+
+/* MODAL PARA ZOOM */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* BOTÃO DE FECHAR (opcional) */
+.modal::after {
+  content: '✕';
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+}
