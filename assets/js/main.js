@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const json = JSON.parse(atob(data.content));
 
       const grid = document.getElementById("galeria-grid");
-      if (!grid) throw new Error("Elemento #galeria-grid não encontrado");
+      if (!grid) return;
 
       grid.innerHTML = "";
 
@@ -175,4 +175,5 @@ function setupZoom() {
 }
 
 // Chame depois de carregar a galeria
-carregarGaleria().then(setupZoom);
+carregarGaleria();
+setupZoom();
