@@ -400,7 +400,7 @@ function checarPermissaoAdmin() {
 
   if (!userJSON) {
     alert("Você não tem permissão para acessar");
-    window.location.href = "login.html"; 
+    window.location.href = "login"; 
     return false;
   }
 
@@ -408,7 +408,7 @@ function checarPermissaoAdmin() {
 
   if (user.type !== "administrator") {
     alert("Você é um cliente, não uma administrador");
-    window.location.href = "/index.html"; 
+    window.location.href = "/index"; 
     return false;
   }
 

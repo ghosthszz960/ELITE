@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const isInPages = window.location.pathname.includes("/pages/");
-  const perfilPath = isInPages ? "perfil.html" : "pages/perfil.html";
-  const loginPath = isInPages ? "login.html" : "pages/login.html";
-  const indexPath = isInPages ? "../index.html" : "index.html";
+  const perfilPath = isInPages ? "perfil" : "pages/perfil";
+  const loginPath = isInPages ? "login" : "pages/login";
+  const indexPath = isInPages ? "../index" : "index";
 
   // =========================
   // MENU MOBILE
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.querySelectorAll(".btn-login").forEach(btn => btn.remove());
     if (userArea) userArea.innerHTML = "";
     if (navMobile) {
-      const loginExistente = navMobile.querySelector('a[href*="login.html"]');
+      const loginExistente = navMobile.querySelector('a[href*="login"]');
       if (loginExistente) loginExistente.remove();
       const oldUser = navMobile.querySelector(".mobile-user");
       if (oldUser) oldUser.remove();

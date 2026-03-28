@@ -249,7 +249,7 @@ if (!user) {
   showToast("Faça login primeiro", "error");
 
   setTimeout(() => {
-    window.location.href = "login.html";
+    window.location.href = "login";
   }, 1500);
 
   return;

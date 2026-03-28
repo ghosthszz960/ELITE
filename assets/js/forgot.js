@@ -119,7 +119,7 @@ async function resetarSenha() {
     sessionStorage.removeItem("resetEmail");
 
     setTimeout(() => {
-      window.location.href = "login.html";
+      window.location.href = "login";
     }, 1500);
 
   } catch (err) {

@@ -90,7 +90,7 @@ async function cadastrar() {
     [nomeInput, emailInput, senhaInput, confirmarInput].forEach(i => i.value = "");
 
     setTimeout(() => {
-      window.location.href = "login.html";
+      window.location.href = "login";
     }, 1500);
 
   } catch (err) {
@@ -125,7 +125,7 @@ async function login() {
       if (user.type === "administrator") {
         showAdminModal(); // abre modal customizado para admins
       } else {
-        window.location.href = "../index.html"; // usuário comum
+        window.location.href = "../index"; // usuário comum
       }
     }, 1500);
 
@@ -187,10 +187,10 @@ function showAdminModal() {
   modal.style.display = "flex";
 
   document.getElementById("goDashboard").onclick = () => {
-    window.location.href = "../pages/adm.html";
+    window.location.href = "../pages/adm";
   };
   document.getElementById("goClientes").onclick = () => {
-    window.location.href = "../index.html";
+    window.location.href = "../index";
   };
 
   modal.onclick = (e) => {
@@ -213,5 +213,5 @@ function goBack() {
 }
 
 function gobackhome() {
-  window.location.href = "../index.html";
+  window.location.href = "../index";
 }
