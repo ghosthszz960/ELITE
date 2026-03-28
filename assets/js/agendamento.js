@@ -203,16 +203,27 @@ async function carregarHorariosOcupados() {
   try {
     const { data } = await getFile(URLS.agendamentos);
 
+    const agora = new Date(); // Hora atual
+
     document.querySelectorAll(".horario").forEach(div => {
       const hora = div.textContent;
+      const horaDiv = new Date(`${selectedDate}T${hora}`);
 
+      // Verificar se o horário é no passado
+      if (horaDiv < agora) {
+        div.classList.add("disabled");
+        div.onclick = null; // remover clique
+        return; // Impede de fazer mais verificações
+      }
+
+      // Verificar se o horário está ocupado
       const conflito = data.some(a => {
         if (a.data !== selectedDate) return false;
 
         const existente = new Date(`${a.data}T${a.hora}`);
         const novo = new Date(`${selectedDate}T${hora}`);
 
-        const diff = Math.abs(novo - existente) / (1000 * 60);
+        const diff = Math.abs(novo - existente) / (1000 * 60); // diferença em minutos
         return diff < 30;
       });
 
@@ -226,11 +237,11 @@ async function carregarHorariosOcupados() {
     showToast("Erro ao carregar horários", "error");
   }
 }
-
 function proximaPagina() {
   if ((paginaAtual + 1) * porPagina < horarios.length) {
     paginaAtual++;
     renderHorarios();
+    carregarHorariosOcupados();
   }
 }
 
@@ -238,6 +249,7 @@ function voltarPagina() {
   if (paginaAtual > 0) {
     paginaAtual--;
     renderHorarios();
+    carregarHorariosOcupados();
   }
 }
 
