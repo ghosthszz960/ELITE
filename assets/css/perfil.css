@@ -121,6 +121,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 /* ÍCONE EDITAR */
@@ -128,6 +129,9 @@
   cursor: pointer;
   font-size: 18px;
   transition: 0.3s;
+  position: absolute; 
+  top: 5px;
+  right: 10px;
 }
 
 .edit-icon:hover {

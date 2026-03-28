@@ -92,12 +92,19 @@ function renderAgendamentos() {
 
   let lista = agendamentos;
 
+  // Filtro "próximos" - Exibe apenas agendamentos futuros
   if (filtroAtual === "proximos") {
     lista = lista.filter(a => new Date(`${a.data}T${a.hora}`) >= hoje);
   }
 
+  // Filtro "passados" - Exibe apenas agendamentos passados
   if (filtroAtual === "passados") {
     lista = lista.filter(a => new Date(`${a.data}T${a.hora}`) < hoje);
+  }
+
+  // Filtro "todos" - Exibe todos os agendamentos, passados e futuros
+  if (filtroAtual === "todos") {
+    // Não faz filtro, exibe todos
   }
 
   if (lista.length === 0) {
@@ -105,19 +112,28 @@ function renderAgendamentos() {
     return;
   }
 
-lista.forEach(a => {
-  container.innerHTML += `
-    <div class="agendamento-item">
-      <strong>${a.servicos.join(", ")}</strong>
-      <span>📅 ${a.data} às ${a.hora}</span>
-      <span>Status: ${a.status}</span>
+  lista.forEach(a => {
+    const dataAgendamento = new Date(`${a.data}T${a.hora}`);
 
-      <button class="btn-cancelar" onclick="confirmarCancelamento(${a.id})">
-        Cancelar
-      </button>
-    </div>
-  `;
-});
+    // Para "todos" e "próximos", mostrar o botão de cancelar apenas para agendamentos futuros
+    const mostrarCancelar = 
+      (filtroAtual === "todos" && dataAgendamento >= hoje && a.status !== "Cancelado") || 
+      (filtroAtual === "proximos" && dataAgendamento >= hoje && a.status !== "Cancelado");
+
+    container.innerHTML += `
+      <div class="agendamento-item">
+        <strong>${a.servicos.join(", ")}</strong>
+        <span>📅 ${a.data} às ${a.hora}</span>
+        <span>Status: ${a.status}</span>
+
+        ${mostrarCancelar ? `
+          <button class="btn-cancelar" onclick="confirmarCancelamento(${a.id})">
+            Cancelar
+          </button>
+        ` : ""}
+      </div>
+    `;
+  });
 }
 
 function confirmarCancelamento(id) {
